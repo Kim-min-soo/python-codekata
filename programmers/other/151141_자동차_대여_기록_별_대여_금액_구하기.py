@@ -1,0 +1,37 @@
+# 자동차 대여 기록 별 대여 금액 구하기
+# 프로그래머스 (unknown)
+# 문제 링크: https://school.programmers.co.kr/learn/courses/30/lessons/151141
+# 작성자: 김민수
+# 작성일: 2026. 01. 17. 23:14:22
+
+-- 코드를 입력하세요
+# 자동차 종류 = 트럭인 CAR_ID 구해
+# CAR_ID를 토대로, HISTORY_ID가 X일때, 대여 기간을 구해
+# 대여 기간 별로 DAILY_FEE * 대여기간 * 할인율을 해
+SELECT
+    A.HISTORY_ID,
+    ROUND(A.DAILY_FEE * A.DATEDIFF * ((100-COALESCE(P.DISCOUNT_RATE,0))/100),0) AS FEE
+FROM(
+SELECT 
+    H.HISTORY_ID,
+    C.CAR_ID,
+    C.DAILY_FEE,
+    DATEDIFF(END_DATE, START_DATE) + 1 AS DATEDIFF,
+    CASE
+        WHEN DATEDIFF(END_DATE, START_DATE) + 1 >= 90 THEN '90일 이상'
+        WHEN DATEDIFF(END_DATE, START_DATE) + 1 >= 30 THEN '30일 이상'
+        WHEN DATEDIFF(END_DATE, START_DATE) + 1 >= 7 THEN '7일 이상'
+        ELSE 0
+    END AS DURATION_TYPE
+FROM 
+    CAR_RENTAL_COMPANY_CAR C INNER JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+    ON C.CAR_ID = H.CAR_ID
+WHERE CAR_TYPE = '트럭'
+) A LEFT JOIN CAR_RENTAL_COMPANY_DISCOUNT_PLAN P
+    ON A.DURATION_TYPE = P.DURATION_TYPE
+WHERE
+    P.CAR_TYPE IS NULL 
+    OR P.CAR_TYPE = '트럭'
+ORDER BY
+    FEE DESC,
+    HISTORY_ID DESC;
