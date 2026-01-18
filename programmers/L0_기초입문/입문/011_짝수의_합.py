@@ -3,7 +3,7 @@
 # 문제 링크: https://school.programmers.co.kr/learn/courses/30/lessons/120831
 # 알고리즘: 기초
 # 작성자: 김민수
-# 작성일: 2026. 01. 19. 08:57:24
+# 작성일: 2026. 01. 19. 08:57:31
 
 def solution(n):
     even_sum = 0
