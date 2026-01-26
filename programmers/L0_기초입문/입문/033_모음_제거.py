@@ -1,0 +1,15 @@
+# 모음 제거
+# 프로그래머스 L0 (기초·입문)
+# 문제 링크: https://school.programmers.co.kr/learn/courses/30/lessons/120849
+# 알고리즘: 기초
+# 작성자: 김민수
+# 작성일: 2026. 01. 26. 09:13:25
+
+def solution(my_string):
+    answer = ''
+    for i in my_string:
+        if i in ["a","e","i","o","u"]:
+            continue
+        else:
+            answer += i
+    return answer
